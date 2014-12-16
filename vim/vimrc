@@ -270,6 +270,12 @@ nmap <leader>o :BundleOpen
 let b:easytags_auto_highlight = 0
 let g:easytags_always_enabled = 1
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                        Vim - Gist                                       "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:gist_get_multiplefile = 1
+
+
 " For gem tags support
 " autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
 "       \ pathogen#split(&tags) +
