@@ -1,3 +1,5 @@
+set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+
 set encoding=utf-8
 set nocompatible               " be iMproved
 filetype off                   " required!
@@ -262,11 +264,16 @@ nmap <leader>o :BundleOpen
 """""""""""""""""""""""""
 " Plugin Configurations "
 """""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                     Easy Tags                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let b:easytags_auto_highlight = 0
+let g:easytags_always_enabled = 1
 
 " For gem tags support
-autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-      \ pathogen#split(&tags) +
-      \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+" autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
+"       \ pathogen#split(&tags) +
+"       \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
 
 " Pyflakes
 "autocmd BufWritePost *.py call Flake8()
@@ -299,7 +306,17 @@ let g:tagbar_type_ruby = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                       YouCompleteMe                                     "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ycm_auto_trigger = 0
+let g:ycm_auto_trigger = 1
+let g:ycm_show_diagnostics_ui = 0
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " crtl-p
 let g:ctrlp_map = '<c-p>'
@@ -353,8 +370,9 @@ nmap <space> za
 nnoremap <C-h> gT
 nnoremap <C-l> gt
 nnoremap ws :StripWhitespace<CR>:w<CR>
-nmap <C-n> :tabnew New<CR>
-nnoremap <F7> :tab split<CR>
+nmap <C-n> :tabnew<CR>
+nnoremap <F7> <Esc><C-W><S-T>
+":tab split<CR>
 nnoremap <F3> :set hlsearch!<CR>:set is!<CR>
 " imap II <C-O>I
 " imap AA <C-O>A
