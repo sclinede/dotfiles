@@ -24,6 +24,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'vim-scripts/Gist.vim'
 Plugin 'mattn/webapi-vim'
 Plugin 'majutsushi/tagbar'
+" Plugin 'neovim/spellfile.vim' - not working
 " ack
 Plugin 'rking/ag.vim'
 Plugin 'tomtom/tcomment_vim'
@@ -35,6 +36,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'mhinz/vim-signify'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'lyokha/vim-xkbswitch'
 
 " Syntaxes
 " TODO: add haml
@@ -58,6 +60,8 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-rake'
+Plugin 'AndrewRadev/splitjoin.vim'
+" Plugin 'ruby_pry.vim' - not working yet
 
 " Fun, but not useful
 Plugin 'altercation/vim-colors-solarized'
@@ -81,6 +85,7 @@ Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-dispatch'
 Plugin 'slim-template/vim-slim'
 Plugin 'thoughtbot/vim-rspec'
+Plugin 'jgdavey/tslime.vim'
 Plugin 'ngmy/vim-rubocop'
 
 call vundle#end()
@@ -91,6 +96,13 @@ filetype plugin indent on
 " Change leader
 let mapleader = "<space>"
 let g:mapleader = "<space>"
+
+" Set Russian kyeboard !!!
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
+" setlocal spell spelllang=ru_yo,en_us
 
 " Wildmenu
 set wildmenu
@@ -163,9 +175,9 @@ let g:molokai_original=1
 set list listchars=tab:»\ ,trail:·
 
 " Default Tabs & spaces
-set tabstop=4     " a tab is four spaces
-set shiftwidth=4  " number of spaces to use for autoindenting
-set softtabstop=4
+set tabstop=2     " a tab is four spaces
+set shiftwidth=2  " number of spaces to use for autoindenting
+set softtabstop=2
 set expandtab
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set smarttab      " insert tabs on the start of a line according to
@@ -180,6 +192,9 @@ set nofoldenable
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" Use keyboard switch
+let g:XkbSwitchEnabled = 1
 
 " I CAN HAZ NORMAL REGEXES?
 nnoremap / /\v
@@ -202,8 +217,7 @@ autocmd FileType mail highlight clear ExtraWhitespace
 autocmd FileType mail setlocal listchars=
 
 " Toggle spellcheck in normal mode
-:map <F5> :setlocal spell! spelllang=en_us<CR>
-
+map <F5> :setlocal spell! spelllang=en_us<CR>
 
 " Markdown configurations
 augroup markdown
@@ -363,8 +377,18 @@ let NERDTreeDirArrows = 1
 let g:NERDTreeWinSize = 30
 let NERDTreeShowHidden=1
 
+" vim-rspec mappings
+" let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+let g:rspec_command = 'call Send_to_Tmux("make\n")'
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
 " My Key Mappings
 nmap <space> za
+map <Space> <Leader>
 " nmap tr :NERDTreeToggle<CR>
 " nnoremap <C-space> <i>
 nnoremap <C-h> gT
@@ -384,13 +408,34 @@ nnoremap <F3> :set hlsearch!<CR>:set is!<CR>
 " imap PP <C-O>p
 " Перемещение строк
 " переместить одну строку
+nnoremap Cr Pldebye
+nnoremap cr pldebye
 nmap <C-S-k> ddkP
 nmap <C-S-j> ddp
 " переместить несколько выделенных строк http://www.vim.org/scripts/script.php?script_id=1590
 vmap <C-S-k> xkP'[V']
 vmap <C-S-j> xp'[V']
 
+" Аббревиатуры!
+" PRY. Ruby Debugging.
+" https://github.com/rking/pry-de/blob/master/vim/ftplugin/ruby_pry.vim
+"
+" …also, Insert Mode as bpry<space>
+iabbr bpry require'pry';binding.pry
+" And admit that the typos happen:
+iabbr bpry require'pry';binding.pry
 
+" Add the pry debug line with \bp (or <Space>bp, if you did: map <Space> <Leader> )
+nnoremap <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
+" Alias for one-handed operation:
+nnoremap <Leader><Leader>b <Leader>bp
+
+" Keep pry from annoyingly hanging around when using, e.g. pry-rescue/minitest
+map <f4> :wa<cr>:call system('kill-pry-rescue')<cr>
+
+" Nab lines from ~/.pry_history (respects "count")
+nmap <Leader>ph :<c-u>let pc = (v:count1 ? v:count1 : 1)<cr>:read !tail -<c-r>=pc<cr> ~/.pry_history<cr>:.-<c-r>=pc-1<cr>:norm <c-r>=pc<cr>==<cr>
+" ↑ thanks to Houl, ZyX-i, and paradigm of #vim for all dogpiling on this one.
 
 """"""""""""""""""""""""""""""""""""""""
 " BACKUP / TMP FILES
