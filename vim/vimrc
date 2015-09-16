@@ -37,6 +37,9 @@ Plugin 'mhinz/vim-signify'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'lyokha/vim-xkbswitch'
+Plugin 'svermeulen/vim-easyclip'
+Plugin 'tpope/vim-repeat'
+
 
 " Syntaxes
 " TODO: add haml
@@ -133,7 +136,8 @@ au VimResized * exe "normal! \<c-w>="
 syntax enable
 set number        " always show line numbers
 set hidden        " Allow un-saved buffers in background
-set clipboard=unnamed " Share system clipboard.
+set clipboard=unnamed,unnamedplus
+" set clipboard=unnamed " Share system clipboard.
 set backspace=indent,eol,start " Make backspace behave normally.
 set directory=/tmp// " swap files
 set backupskip=/tmp/*,/private/tmp/*
@@ -157,6 +161,7 @@ endif
 
 " Clipboard
 if has('unnamedplus')
+""  set clipboard=unnamedplus
   set clipboard=unnamed,unnamedplus
 else
   set clipboard+=unnamed
@@ -278,6 +283,14 @@ nmap <leader>o :BundleOpen
 """""""""""""""""""""""""
 " Plugin Configurations "
 """""""""""""""""""""""""
+
+let g:EasyClipShareYanks = 1
+let g:EasyClipCopyExplicitRegisterToDefault = 1
+let g:EasyClipUseCutDefaults = 0
+nmap x <Plug>MoveMotionPlug
+xmap x <Plug>MoveMotionXPlug
+nmap xx <Plug>MoveMotionLinePlug
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                     Easy Tags                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -301,7 +314,7 @@ let g:flake8_ignore="E128,E501"
 let g:syntastic_python_checker_args='--ignore=E501,E128'
 
 " Gist
-let g:gist_clip_command = 'pbcopy'
+let g:gist_clurker_schemalip_command = 'pbcopy'
 let g:gist_detect_filetype = 2
 let g:gist_show_privates = 1
 let g:gist_post_private = 1
@@ -404,6 +417,7 @@ nmap <C-n> :tabnew<CR>
 nnoremap <F7> <Esc><C-W><S-T>
 ":tab split<CR>
 nnoremap <F3> :set hlsearch!<CR>:set is!<CR>
+nnoremap <Leader>f :set hlsearch!<CR>:set is!<CR>
 " imap II <C-O>I
 " imap AA <C-O>A
 " imap YY <C-O>y
