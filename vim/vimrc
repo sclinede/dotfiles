@@ -1,4 +1,5 @@
 set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim
 
 set encoding=utf-8
 set nocompatible               " be iMproved
@@ -8,7 +9,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " Vundle help
 """"""""""""""
@@ -23,17 +24,17 @@ Plugin 'tpope/vim-fugitive'
 " System
 Plugin 'vim-scripts/Gist.vim'
 Plugin 'mattn/webapi-vim'
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 " Plugin 'neovim/spellfile.vim' - not working
 " ack
-Plugin 'rking/ag.vim'
+" Plugin 'rking/ag.vim'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/syntastic'
-Plugin 'Raimondi/delimitMate'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'Raimondi/delimitMate'
 Plugin 'luochen1990/rainbow'
 Plugin 'kien/ctrlp.vim'
-Plugin 'mhinz/vim-signify'
+" Plugin 'mhinz/vim-signify'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'lyokha/vim-xkbswitch'
@@ -69,9 +70,9 @@ Plugin 'AndrewRadev/splitjoin.vim'
 " Fun, but not useful
 Plugin 'altercation/vim-colors-solarized'
 " Plugin 'skammer/vim-css-color'
-Plugin 'mgutz/vim-colors'
+" Plugin 'mgutz/vim-colors'
 Plugin 'ehamberg/vim-cute-python'
-Plugin 'bling/vim-airline'
+" Plugin 'bling/vim-airline'
 Plugin 'tomasr/molokai'
 
 " Snippets
@@ -291,11 +292,14 @@ nmap x <Plug>MoveMotionPlug
 xmap x <Plug>MoveMotionXPlug
 nmap xx <Plug>MoveMotionLinePlug
 
+let g:matchparen_insert_timeout = 90
+let g:matchparen_timeout = 90
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                     Easy Tags                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let b:easytags_auto_highlight = 0
-let g:easytags_always_enabled = 1
+" let b:easytags_auto_highlight = 0
+" let g:easytags_always_enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                        Vim - Gist                                       "
@@ -311,7 +315,7 @@ let g:gist_get_multiplefile = 1
 " Pyflakes
 "autocmd BufWritePost *.py call Flake8()
 let g:flake8_ignore="E128,E501"
-let g:syntastic_python_checker_args='--ignore=E501,E128'
+" let g:syntastic_python_checker_args='--ignore=E501,E128'
 
 " Gist
 let g:gist_clurker_schemalip_command = 'pbcopy'
@@ -320,27 +324,29 @@ let g:gist_show_privates = 1
 let g:gist_post_private = 1
 
 " TagBar
-nnoremap <silent> <F8> :TagbarToggle<CR>
-" let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
-let g:tagbar_autoshowtag = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_type_ruby = {}
-let g:tagbar_type_ruby = {
-    \ 'kinds' : [
-        \ 'm:modules',
-        \ 'c:classes',
-        \ 'd:describes',
-        \ 'C:contexts',
-        \ 'f:methods',
-        \ 'F:singleton methods'
-    \ ]
-\ }
+" nnoremap <silent> <F8> :TagbarToggle<CR>
+" " let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+" let g:tagbar_autoshowtag = 1
+" let g:tagbar_autofocus = 1
+" let g:tagbar_type_ruby = {}
+" let g:tagbar_type_ruby = {
+"     \ 'kinds' : [
+"         \ 'm:modules',
+"         \ 'c:classes',
+"         \ 'd:describes',
+"         \ 'C:contexts',
+"         \ 'f:methods',
+"         \ 'F:singleton methods'
+"     \ ]
+" \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                       YouCompleteMe                                     "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ycm_auto_trigger = 1
 let g:ycm_show_diagnostics_ui = 0
+let g:ycm_disable_for_files_larger_than_kb = 100
+let g:ycm_use_ultisnips_completer = 0
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -371,17 +377,17 @@ nmap ; :CtrlPBuffer<CR>
 let g:rainbow_active = 1
 
 set laststatus=2
-let g:syntastic_enable_signs = 1
-let g:syntastic_auto_jump = 0
-let g:syntastic_puppet_lint_disable = 0
-
-" Airline configs
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
-endif
+" let g:syntastic_enable_signs = 1
+" let g:syntastic_auto_jump = 0
+" let g:syntastic_puppet_lint_disable = 0
+"
+" " Airline configs
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_powerline_fonts = 1
+"
+" if !exists('g:airline_symbols')
+" 	let g:airline_symbols = {}
+" endif
 
 " NerdTree
 " map <leader>t :NERDTreeToggle<CR>
@@ -515,3 +521,9 @@ nmap <Leader>r :RuboCop<CR>
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+
+let loaded_matchparen = 1
+set ttyfast
+set lazyredraw
+autocmd FileType ruby setlocal ts=2 sts=2 sw=2 norelativenumber nocursorline
+set foldmethod=indent
