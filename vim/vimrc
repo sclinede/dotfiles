@@ -1,4 +1,4 @@
-set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+" set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
 set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim
 
 set encoding=utf-8
@@ -30,7 +30,7 @@ Plugin 'mattn/webapi-vim'
 " Plugin 'rking/ag.vim'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-surround'
-" Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 " Plugin 'Raimondi/delimitMate'
 Plugin 'luochen1990/rainbow'
 Plugin 'kien/ctrlp.vim'
@@ -315,7 +315,7 @@ let g:gist_get_multiplefile = 1
 " Pyflakes
 "autocmd BufWritePost *.py call Flake8()
 let g:flake8_ignore="E128,E501"
-" let g:syntastic_python_checker_args='--ignore=E501,E128'
+let g:syntastic_python_checker_args='--ignore=E501,E128'
 
 " Gist
 let g:gist_clurker_schemalip_command = 'pbcopy'
@@ -377,9 +377,21 @@ nmap ; :CtrlPBuffer<CR>
 let g:rainbow_active = 1
 
 set laststatus=2
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 " let g:syntastic_enable_signs = 1
 " let g:syntastic_auto_jump = 0
 " let g:syntastic_puppet_lint_disable = 0
+
+let g:syntastic_ruby_mri_exec = '~/.rvm/rubies/ruby-1.9.3-p551/bin/ruby'
 "
 " " Airline configs
 " let g:airline#extensions#tabline#enabled = 1
@@ -436,8 +448,8 @@ nnoremap <Leader>f :set hlsearch!<CR>:set is!<CR>
 " переместить одну строку
 nnoremap Cr Pldebye
 nnoremap cr pldebye
-nmap <C-S-k> ddkP
-nmap <C-S-j> ddp
+nmap <C-S-k> xxkP
+nmap <C-S-j> xxp
 " переместить несколько выделенных строк http://www.vim.org/scripts/script.php?script_id=1590
 vmap <C-S-k> xkP'[V']
 vmap <C-S-j> xp'[V']
@@ -520,7 +532,7 @@ let g:vimrubocop_keymap = 0
 nmap <Leader>r :RuboCop<CR>
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+" autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
 let loaded_matchparen = 1
 set ttyfast
