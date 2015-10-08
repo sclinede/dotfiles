@@ -15,6 +15,6 @@ export TERM=screen-256color
 # eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 # export SSH_AUTH_SOCK
 
-eval $(ssh-agent)
-ssh-add ~/.ssh/dolganov-20130517
+# eval $(ssh-agent)
+# ssh-add ~/.ssh/dolganov-20130517
 cd ..;cd -
