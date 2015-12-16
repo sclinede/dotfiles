@@ -17,4 +17,5 @@ export TERM=screen-256color
 
 # eval $(ssh-agent)
 # ssh-add ~/.ssh/dolganov-20130517
+eval $(keychain --eval --quiet dolganov-20130517)
 cd ..;cd -
