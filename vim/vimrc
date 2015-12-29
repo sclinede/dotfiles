@@ -40,6 +40,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'lyokha/vim-xkbswitch'
 Plugin 'svermeulen/vim-easyclip'
 Plugin 'tpope/vim-repeat'
+Plugin 'rking/ag.vim'
 
 
 " Syntaxes
@@ -171,13 +172,18 @@ else
 endif
 
 " Default background & theme
-" set background=dark
-set background=light
+set background=dark
+" set background=light
 let g:rehash256=1
 set t_Co=256
 " let g:airline_theme = 'luna'
 " colorscheme molokai
 " let g:molokai_original=1
+command! Bgd set background=dark
+command! Bgl set background=light
+
+nmap <leader>bd :Bgd<CR>
+nmap <leader>bl :Bgl<CR>
 
 " colorscheme solarized
 colorscheme gruvbox
@@ -389,7 +395,7 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
 " let g:syntastic_enable_signs = 1
@@ -441,6 +447,10 @@ nnoremap <F7> <Esc><C-W><S-T>
 ":tab split<CR>
 nnoremap <F3> :set hlsearch!<CR>:set is!<CR>
 nnoremap <Leader>f :set hlsearch!<CR>:set is!<CR>
+
+noremap <c-s> :StripWhitespace<CR>:w<CR>
+inoremap <c-s> <Esc>:StripWhitespace<CR>:w<CR>
+
 " imap II <C-O>I
 " imap AA <C-O>A
 " imap YY <C-O>y

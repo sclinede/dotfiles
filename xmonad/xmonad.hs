@@ -46,7 +46,7 @@ myModMask            = mod4Mask       -- changes the mod key to "super"
 myFocusedBorderColor = "#ff0000"      -- color of focused border
 myNormalBorderColor  = "#cccccc"      -- color of inactive border
 myBorderWidth        = 2              -- width of border around windows
-myTerminal           = "terminator"   -- which terminal software to use
+myTerminal           = "gnome-terminal"   -- which terminal software to use
 myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
                                       -- use "Buddy List" for Pidgin, but
                                       -- "Contact List" for Empathy
@@ -216,7 +216,8 @@ myKeyBindings =
     , ((myModMask, xK_KP_Subtract), spawn "amixer -q set Master 5%- && ~/.xmonad/getvolume.sh >> /tmp/.volume-pipe")
     , ((myModMask, xK_KP_Add), spawn "amixer -q set Master 5%+ && ~/.xmonad/getvolume.sh >> /tmp/.volume-pipe")
     , ((myModMask .|. controlMask, xK_l), spawn "gnome-screensaver-command -l")
-    , ((myModMask, xK_Escape), spawn "~/.xmonad/layout_switch.sh")
+    --, ((myModMask, xK_Escape), spawn "~/.xmonad/layout_switch.sh")
+    , ((myModMask, xK_space), spawn "~/.xmonad/layout_switch.sh")
     , ((myModMask .|. controlMask, xK_s), sshPrompt defaultXPConfig)
   ]
 
