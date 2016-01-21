@@ -1,0 +1,60 @@
+[user]
+	email = sclinede@gmail.com
+	name = Sergey D.
+[alias]
+  # базовые
+  i = status
+  ci = commit
+  co = checkout
+  br = branch
+  unstage = reset HEAD
+  last = cat-file commit HEAD
+ 
+  # pretty logs
+  logp = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  logpn = log --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --name-only
+ 
+  # список алиасов
+  aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
+ 
+  # субмодули
+ 
+  # обновление
+  su = submodule update --init
+  # статус
+  si = submodule foreach git i
+  # текущая ветка
+  sb = submodule foreach git branch
+  # обновление до HEAD в master-ветке (полезно для вывода субмодулей из состояния Not currently on any branch)
+  sm = submodule foreach git checkout master && git pull
+  # push для всех субмодулей
+  sp = submodule foreach git push origin master
+  # коммит изменившихся привязок субмодулей в основной проект
+  # === Exaple ===
+  # :> git i
+  # On branch master
+  # Changes to be committed:
+  #
+  # modified:   app/controllers/application_controller.rb
+  # modified:   vendor/plugins/core
+  #
+  # Changed but not updated:
+  #
+  # modified:   config/environments/development.rb
+  # modified:   vendor/plugins/clearance
+  #
+  # :> git sci
+  # On branch master
+  # Your branch is ahead of 'origin/master' by 1 commits.
+  # Changes to be committed:
+  #
+  # modified:   app/controllers/application_controller.rb
+  #
+  # Changed but not updated:
+  #
+  # modified:   config/environments/development.rb
+  sci = !SUBMODULES=$(git config -f .gitmodules --get-regexp '^submodule\\..*?\\.path$' | awk '{ print $2 }') && git add $SUBMODULES && git commit $SUBMODULES -m 'Submodules update' && unset SUBMODULES
+  # полное обновление, pull + submodule update
+  spull = !git pull && git su
+[github]
+	user = sclinede
