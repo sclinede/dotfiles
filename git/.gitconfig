@@ -1,6 +1,6 @@
 [user]
 	email = sclinede@gmail.com
-	name = Sergey D.
+	name = Sergey Dolganov
 [alias]
   # базовые
   i = status
@@ -9,16 +9,16 @@
   br = branch
   unstage = reset HEAD
   last = cat-file commit HEAD
- 
+
   # pretty logs
   logp = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   logpn = log --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --name-only
- 
+
   # список алиасов
   aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
- 
+
   # субмодули
- 
+
   # обновление
   su = submodule update --init
   # статус
@@ -58,3 +58,9 @@
   spull = !git pull && git su
 [github]
 	user = sclinede
+[core]
+	excludesfile = ~/.gitignore_global
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[push]
+	default = simple

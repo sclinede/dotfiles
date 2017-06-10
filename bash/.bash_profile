@@ -8,6 +8,19 @@ export TERM=screen-256color
 # export RUBY_FREE_MIN=500000
 # export RUBY_HEAP_MIN_SLOTS=40000
 
+export WORQUE_PATH="$HOME/Dropbox/Notes/Todos"
+alias today="vim $(worque todo) +':cd $WORQUE_PATH'"
+alias ytd="vim $(worque todo --for=yesterday) +':cd $WORQUE_PATH'"
+
+# GO:
+export GOROOT=$HOME/go
+export GOPATH=$HOME/gocode
+export GOBIN=$GOROOT/bin
+export GOARCH=amd64
+export GOOS=linux
+
+export PATH=$GOBIN:$PATH
+
 # WRONG:
 # SSH_AUTH_SOCK=`netstat -xl | grep -o '/tmp/keyring-.*/ssh$'`
 # [ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
@@ -15,7 +28,9 @@ export TERM=screen-256color
 # eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 # export SSH_AUTH_SOCK
 
+# . ~/.gkr
 # eval $(ssh-agent)
 # ssh-add ~/.ssh/dolganov-20130517
 eval $(keychain --eval --quiet dolganov-20130517)
+# eval $(keychain --eval dolganov-20130517)
 cd ..;cd -
