@@ -24,7 +24,10 @@ alias dbg_rspkd='DEBUG_CONTRACTS=1 bundle exec rspec -f doc -t contract'
 alias be='bundle exec'
 
 # sudo pip install termdown
-alarm() { termdown $1 && cvlc -L /home/sclinede/Music/Clock-ringing.mp3; }
+# sudo apt install vlc
+# sudo apt install figlet
+
+alarm() { termdown $1 && printf "\e[48;5;196m" && figlet TIME RUN OUT && printf "\e[0m" && cvlc -q -L /home/sclinede/Music/Clock-ringing.mp3; }
 
 # Transfer.sh
 # Add this to .bashrc or its equivalent
