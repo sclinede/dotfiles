@@ -57,7 +57,7 @@ Plugin 'puppetlabs/puppet-syntax-vim'
 " Markdown
 Plugin 'tpope/vim-markdown'
 " Plugin 'jtratner/vim-flavored-markdown'
-" Plugin 'JamshedVesuna/vim-markdown-preview'
+Plugin 'JamshedVesuna/vim-markdown-preview'
 
 Plugin 'othree/html5.vim'
 Plugin 'itspriddle/vim-jquery'
@@ -81,8 +81,7 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'fatih/vim-go'
 
 " Fun, but not useful
-Plugin 'morhetz/gruvbox'
-" Plugin 'altercation/vim-colors-solarized'
+" Plugin 'morhetz/gruvbox'
 
 " Plugin 'skammer/vim-css-color'
 " Plugin 'mgutz/vim-colors'
@@ -93,10 +92,10 @@ Plugin 'morhetz/gruvbox'
 " Snippets
 " Plugin 'tomtom/tlib_vim'
 " Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'scrooloose/snipmate-snippets'
-Plugin 'SirVer/ultisnips'
 
 " Just try`
 Plugin 'Valloric/YouCompleteMe'
@@ -176,36 +175,31 @@ else
   set clipboard+=unnamed
 endif
 
-set termguicolors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set t_ZH="\<Esc>[3m"
-set t_ZR="\<Esc>[23m"
+if has('termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set t_ZH="\<Esc>[3m"
+  set t_ZR="\<Esc>[23m"
+  set termguicolors
+endif
 
 " Background & theme
 
-" Solarized theme
-" syntax enable
-" set background=light
-" let g:solarized_termcolors = 256
-" " let g:solarized_contrast = 'high'
-" colorscheme solarized
+" Solarized8 theme
+set background=dark
+colorscheme solarized8_flat
 
 " Gruvbox theme
-let g:gruvbox_contrast_dark = 'soft'
-let g:gruvbox_contrast_light = 'hard'
-let g:gruvbox_italic=1
-colorscheme gruvbox
+" set background=dark
+" let g:gruvbox_contrast_dark = 'soft'
+" let g:gruvbox_contrast_light = 'hard'
+" let g:gruvbox_italic=1
+" colorscheme gruvbox
 
 " Molokai theme
+" set background=dark
 " colorscheme molokai
 " let g:molokai_original = 1
-
-set background=dark
-" set background=light
-"
-" set t_Co=256
-" let g:rehash256=1
 
 command! Bgd set background=dark
 command! Bgl set background=light
@@ -234,6 +228,10 @@ set nofoldenable
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" Markdown preview (use :InstantMarkdownPreview)
+let g:instant_markdown_autostart = 0
+let vim_markdown_preview_hotkey='<F10>'
 
 " Use keyboard switch
 " let g:XkbSwitchEnabled = 1
@@ -291,7 +289,7 @@ autocmd FileType mail setlocal listchars=
 " augroup END
 
 " Ruby Configurations
-autocmd filetype ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 shiftwidth=2 colorcolumn=120
+autocmd filetype ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 shiftwidth=2 colorcolumn=80
 
 " PHP Configurations
 autocmd FileType php setlocal colorcolumn=100
@@ -402,7 +400,7 @@ let g:gist_post_private = 1
 let g:ycm_auto_trigger = 1
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_disable_for_files_larger_than_kb = 100
-let g:ycm_use_ultisnips_completer = 0
+let g:ycm_use_ultisnips_completer = 1
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -427,7 +425,7 @@ let g:ctrlp_use_caching = 1 " enable caching
 let g:ctrlp_clear_cache_on_exit=0 " speed up by not removing clearing cache evertime
 let g:ctrlp_show_hidden = 0 " don't show me dotfiles
 let g:ctrlp_mruf_max = 250 " number of recently opened files
-nmap ; :CtrlPBuffer<CR>
+nmap <c-s-p> :CtrlPBuffer<CR>
 
 " Double rainbow - What does it mean!?
 " let loaded_matchparen = 1
@@ -475,7 +473,7 @@ let g:syntastic_check_on_wq = 0
 " let g:syntastic_puppet_lint_disable = 0
 
 " let g:syntastic_ruby_mri_exec = '~/.rvm/rubies/ruby-1.9.3-p551/bin/ruby'
-let g:syntastic_ruby_mri_exec = '~/.rvm/rubies/ruby-2.1.8/bin/ruby'
+let g:syntastic_ruby_mri_exec = '~/.rbenv/versions/2.4.1/bin/ruby'
 "
 " " Airline configs
 " let g:airline#extensions#tabline#enabled = 1
@@ -488,7 +486,7 @@ let g:syntastic_ruby_mri_exec = '~/.rvm/rubies/ruby-2.1.8/bin/ruby'
 " NerdTree
 " map <leader>t :NERDTreeToggle<CR>
 " Toggle the NERD Tree on an off
-nnoremap <Bs> :NERDTreeToggle<CR>
+" nnoremap <C-Bs> :NERDTreeToggle<CR>
 " Open the project tree and expose current file in the nerdtree with Ctrl-\
 nnoremap <silent> <C-e> :NERDTreeFind<CR>
 let NERDTreeIgnore=['\.pyc$', '\~$']
@@ -639,6 +637,20 @@ nnoremap <Leader>rd :let g:rubycomplete_disable = 1<CR>
 nnoremap <Leader>re :let g:rubycomplete_disable = 0<CR>
 nnoremap <Leader>rel :set relativenumber!<CR>
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+inoremap <C-E> <End>
+inoremap <C-A> <Home>
+inoremap <C-F> <Right>
+inoremap <C-B> <Left>
+inoremap <A-b> <S-Left>
+inoremap <A-f> <S-Right>
+
+cnoremap <C-E> <End>
+cnoremap <C-A> <Home>
+cnoremap <C-F> <Right>
+cnoremap <C-B> <Left>
+cnoremap <A-b> <S-Left>
+cnoremap <A-f> <S-Right>
 
 set ttyfast
 set lazyredraw
