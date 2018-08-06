@@ -27,7 +27,7 @@ alias be='bundle exec'
 # sudo apt install vlc
 # sudo apt install figlet
 
-alarm() { termdown $1 && printf "\e[48;5;196m" && figlet TIME RUN OUT && printf "\e[0m" && cvlc -q -L /home/sclinede/Music/Clock-ringing.mp3; }
+alarm() { termdown $1 && printf "\e[48;5;196m" && figlet TIME RUN OUT && printf "\e[0m" && cvlc --gain=2 -q -L /home/sclinede/Music/Clock-ringing.mp3; }
 
 # Transfer.sh
 # Add this to .bashrc or its equivalent
