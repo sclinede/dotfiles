@@ -32,6 +32,7 @@ Bundle 'mattn/gist-vim'
 " ack
 Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-surround'
+Plugin 'bitc/vim-hdevtools'
 Plugin 'scrooloose/syntastic'
 Plugin 'Raimondi/delimitMate'
 Plugin 'luochen1990/rainbow'
@@ -81,7 +82,7 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'fatih/vim-go'
 
 " Fun, but not useful
-" Plugin 'morhetz/gruvbox'
+Plugin 'morhetz/gruvbox'
 
 " Plugin 'skammer/vim-css-color'
 " Plugin 'mgutz/vim-colors'
@@ -92,7 +93,7 @@ Plugin 'fatih/vim-go'
 " Snippets
 " Plugin 'tomtom/tlib_vim'
 " Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'scrooloose/snipmate-snippets'
@@ -187,14 +188,14 @@ endif
 
 " Solarized8 theme
 set background=dark
-colorscheme solarized8_flat
+" colorscheme solarized8_flat
 
 " Gruvbox theme
 " set background=dark
-" let g:gruvbox_contrast_dark = 'soft'
-" let g:gruvbox_contrast_light = 'hard'
-" let g:gruvbox_italic=1
-" colorscheme gruvbox
+let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_contrast_light = 'hard'
+let g:gruvbox_italic=1
+colorscheme gruvbox
 
 " Molokai theme
 " set background=dark
@@ -303,6 +304,13 @@ autocmd FileType python setlocal colorcolumn=80
 autocmd FileType python map <buffer> <F4> :call Flake8()<CR>
 autocmd FileType python autocmd BufWritePre * :%s/\s\+$//e
 autocmd FileType python set omnifunc=pythoncomplete#Complete
+
+" Haskell
+let g:hdevtools_stack = 1
+au filetype haskell setlocal expandtab shiftwidth=4 expandtab tabstop=8 softtabstop=4 colorcolumn=80
+au FileType haskell nnoremap <buffer> <F4> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
 
 " Javascript configurations
 au BufNewFile,BufReadPost *.js setlocal shiftwidth=2 expandtab
@@ -569,7 +577,7 @@ nnoremap <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
 nnoremap <Leader><Leader>b <Leader>bp
 
 " Keep pry from annoyingly hanging around when using, e.g. pry-rescue/minitest
-map <f4> :wa<cr>:call system('kill-pry-rescue')<cr>
+au filetype ruby map <f4> :wa<cr>:call system('kill-pry-rescue')<cr>
 
 " Nab lines from ~/.pry_history (respects "count")
 nmap <Leader>ph :<c-u>let pc = (v:count1 ? v:count1 : 1)<cr>:read !tail -<c-r>=pc<cr> ~/.pry_history<cr>:.-<c-r>=pc-1<cr>:norm <c-r>=pc<cr>==<cr>
