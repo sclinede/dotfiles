@@ -10,5 +10,5 @@
 #if [ 0 -eq ${status} ] ; then
 #    xinput enable ${tpid}
 #else
-    xinput disable ${tpid}
+#    xinput disable ${tpid}
 #fi
