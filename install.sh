@@ -2,9 +2,12 @@ if [ "$SPIN" ]; then
   echo "export EDITOR=vim" >> ~/.zshrc
   ln -sf ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
   
-  if ! command -v rg &> /dev/null; then
-    sudo apt-get install -y tig ag
-    sudo gem install solargraph
+  if ! command -v tig &> /dev/null; then
+    sudo apt-get install -y tig
   fi
+  if ! command -v ag &> /dev/null; then
+    sudo apt-get install -y ag    
+  fi
+  sudo gem install solargraph
 fi
 
