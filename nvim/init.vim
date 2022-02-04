@@ -229,7 +229,7 @@ let g:jsx_ext_required = 0
 
 " LSP, Autocomplete, Snippets
 
-if exists('*LspConfig')
+" if exists('*LspConfig')
 
 lua << EOF
 local lsp_installer_servers = require('nvim-lsp-installer.servers')
@@ -355,7 +355,7 @@ cmp.setup {
 }
 EOF
 
-endif
+" endif
 
 " }}}
 
