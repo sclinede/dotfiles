@@ -54,4 +54,4 @@ if [[ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]]; then
 fi
 
 # Install and Upgrade NeoVim Plugins
-nvim +silent +PlugUpgrade +PlugInstall +PlugUpdate +PlugClean +q +q
+nvim +silent +PlugUpgrade +PlugInstall +PlugUpdate +PlugClean +qa
