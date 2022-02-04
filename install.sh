@@ -1,6 +1,10 @@
+#!/usr/bin/env bash
+
 if [ "$SPIN" ]; then
   echo "export EDITOR=nvim" >> ~/.zshrc
   ln -sf ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
+  mkdir -p ~/.config/nvim/
+  ln -sf ~/dotfiles/nvim/init.vim ~/.config/nvim/init.vim
 
   # Install NVIM
   sudo apt-get remove -y neovim
