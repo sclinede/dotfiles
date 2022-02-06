@@ -55,3 +55,5 @@ fi
 
 # Install and Upgrade NeoVim Plugins
 nvim +silent +PlugUpgrade +PlugInstall +PlugUpdate +PlugClean +qa
+
+nvim --version

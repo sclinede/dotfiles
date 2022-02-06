@@ -41,6 +41,9 @@ Plug 'sheerun/vim-polyglot'
 " Configure alchemist for Elixir development
 Plug 'slashmili/alchemist.vim'
 
+" Clipboard over SSH
+Plug 'ojroques/vim-oscyank'
+
 " Shopify Specific Plugins
 Plug 'Shopify/shadowenv.vim'
 
