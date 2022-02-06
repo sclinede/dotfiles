@@ -103,6 +103,8 @@ let g:mapleader = " "
 
 " Send all vim registers to the mac clipboard
 set clipboard=unnamed
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+let g:oscyank_max_length = 1000000
 
 " Default to magic mode when using substitution
 cnoremap %s/ %s/\v
