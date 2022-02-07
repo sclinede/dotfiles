@@ -105,6 +105,7 @@ let g:mapleader = " "
 set clipboard=unnamed
 autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
 let g:oscyank_max_length = 1000000
+let g:oscyank_silent = v:true
 
 " Default to magic mode when using substitution
 cnoremap %s/ %s/\v
