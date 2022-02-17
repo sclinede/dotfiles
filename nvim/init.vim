@@ -132,8 +132,9 @@ nnoremap <silent> <leader>x :bp\|bd #<CR>
 " Capture current file path into clipboard
 function! CaptureFile()
   let @+ = expand('%')
+  execute 'OSCYankReg +'
 endfunction
-map <leader>f :call CaptureFile()<cr>
+map <leader>fn :call CaptureFile()<cr>
 
 " Rename current file
 function! RenameFile()
