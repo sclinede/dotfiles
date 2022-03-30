@@ -4,7 +4,7 @@ call plug#begin('~/.config/nvim/plugged')
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'c-brenn/phoenix.vim'
 Plug 'fatih/vim-go'
-Plug 'vim-test/vim-test'
+" Plug 'vim-test/vim-test'
 Plug 'junegunn/vader.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-commentary'
@@ -223,11 +223,11 @@ let g:vim_json_syntax_conceal = 0
 let test#strategy = "neovim"
 
 " Add hotkeys for vim-test
-nmap <silent> <leader>t :TestFile<CR>
-nmap <silent> <leader>T :TestNearest<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
+" nmap <silent> <leader>t :TestFile<CR>
+" nmap <silent> <leader>T :TestNearest<CR>
+" nmap <silent> <leader>a :TestSuite<CR>
+" nmap <silent> <leader>l :TestLast<CR>
+" nmap <silent> <leader>g :TestVisit<CR>
 " }}}
 
 " vim-polyglot {{{

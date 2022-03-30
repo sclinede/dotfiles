@@ -43,6 +43,18 @@ if [ "$SPIN" ]; then
 
   cd $HOME/dotfiles
   rm -rf $HOME/dotfiles/tmp
+else
+  OMZ_DIR=$HOME/.oh-my-zsh
+
+  if [ ! -d "$OMZ_DIR" ]; then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
+
+  ZSH_HIGHLIGHT_DIR=~/.config/zsh-syntax-highlighting
+
+  if [ ! -d "$ZSH_HIGHLIGHT_DIR" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_HIGHLIGHT_DIR
+  fi
 fi
 
 sudo gem install solargraph sorbet
