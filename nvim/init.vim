@@ -48,7 +48,7 @@ Plug 'ojroques/vim-oscyank'
 Plug 'Shopify/shadowenv.vim'
 
 " Shopify Spin status page
-Plug 'Shopify/spin-hud.vim'
+Plug 'Shopify/spin-hud'
 
 call plug#end()
 " }}}
