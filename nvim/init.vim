@@ -1,10 +1,8 @@
 " Plug {{{
 call plug#begin('~/.config/nvim/plugged')
 
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'c-brenn/phoenix.vim'
 Plug 'fatih/vim-go'
-" Plug 'vim-test/vim-test'
 Plug 'junegunn/vader.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-commentary'
@@ -17,10 +15,13 @@ Plug 'jlanzarotta/bufexplorer'
 " LSP and Treesitter (nvim 0.5.0 enhancements)
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'hrsh7th/nvim-cmp' " -- Autocompletion plugin
 Plug 'hrsh7th/cmp-nvim-lsp' " -- LSP source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' " -- Snippets source for nvim-cmp
+Plug 'nvimtools/none-ls.nvim' " -- Community fork of null-ls
+Plug 'jay-babu/mason-null-ls.nvim' " -- Bridge mason with none-ls
 Plug 'L3MON4D3/LuaSnip' " -- Snippets plugin
 
 " Telescope
@@ -33,7 +34,7 @@ Plug 'dense-analysis/ale'
 
 " Vim, Tmux, and Airline theming
 Plug 'vim-airline/vim-airline'
-Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
 
 " Language support
 Plug 'sheerun/vim-polyglot'
@@ -44,24 +45,41 @@ Plug 'slashmili/alchemist.vim'
 " Clipboard over SSH
 Plug 'ojroques/vim-oscyank'
 
-" Shopify Specific Plugins
-Plug 'Shopify/shadowenv.vim'
-
-" Shopify Spin status page
-Plug 'Shopify/spin-hud'
-
 call plug#end()
 " }}}
 
 " Colors/Theme {{{
-set background=dark
-silent! colorscheme dracula
+let g:gruvbox_italic=1
+
+" Auto-switch theme based on time of day
+" Dark mode from 4 PM (16:00) to 8 AM (08:00)
+function! SetThemeByTime()
+  let hour = strftime("%H")
+  if hour >= 16 || hour < 8
+    set background=dark
+  else
+    set background=light
+  endif
+endfunction
+
+" Set theme on startup
+autocmd VimEnter * call SetThemeByTime()
+autocmd vimenter * ++nested colorscheme gruvbox
+
+" Optional: Add command to manually toggle theme
+command! ToggleTheme let &background = ( &background == "dark" ? "light" : "dark" )
 " }}}
 
 " Base Configuration {{{
 set nocompatible
 filetype off
 filetype plugin indent on
+
+" Disable unused providers (speeds up startup, removes warnings)
+let g:loaded_node_provider = 0
+let g:loaded_python3_provider = 0
+let g:loaded_perl_provider = 0
+let g:loaded_ruby_provider = 0
 
 set ttyfast
 
@@ -222,97 +240,53 @@ let g:go_auto_sameids = 1
 let g:vim_json_syntax_conceal = 0
 " }}}
 
-" vim-test {{{
-let test#strategy = "neovim"
-
-" Add hotkeys for vim-test
-" nmap <silent> <leader>t :TestFile<CR>
-" nmap <silent> <leader>T :TestNearest<CR>
-" nmap <silent> <leader>a :TestSuite<CR>
-" nmap <silent> <leader>l :TestLast<CR>
-" nmap <silent> <leader>g :TestVisit<CR>
-" }}}
-
 " vim-polyglot {{{
 let g:jsx_ext_required = 0
 " }}}
 
-" LSP, Autocomplete, Snippets
-
-" if exists('*LspConfig')
+" LSP, Autocomplete, Snippets {{{
 
 lua << EOF
-local lsp_installer_servers = require('nvim-lsp-installer.servers')
-
-local servers = {
-    "solargraph",
-    "clangd",
-    "sorbet",
-}
-
--- Loop through the servers listed above.
-for _, server_name in pairs(servers) do
-    local server_available, server = lsp_installer_servers.get_server(server_name)
-    if server_available then
-        server:on_ready(function ()
-            -- When this particular server is ready (i.e. when installation is finished or the server is already installed),
-            -- this function will be invoked. Make sure not to use the "catch-all" lsp_installer.on_server_ready()
-            -- function to set up servers, to avoid doing setting up a server twice.
-            local opts = {}
-            server:setup(opts)
-        end)
-        if not server:is_installed() then
-            -- Queue the server to be installed.
-            server:install()
-        end
-    end
-end
-
--- Define keybindings for LSP lookup
-local my_custom_on_attach = function(client, bufnr)
-  local opts = { noremap=true, silent=true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-end
-
-local nvim_lsp = require('lspconfig')
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
-
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'solargraph', 'sorbet', 'tsserver' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = my_custom_on_attach,
-    capabilities = capabilities,
+-- Mason setup (must be before lspconfig)
+require('mason').setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
+    }
   }
+})
+
+-- Capabilities for LSP
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- LSP on_attach function for keybindings
+local on_attach = function(client, bufnr)
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
+
+require('mason-lspconfig').setup({
+  ensure_installed = { 'ts_ls', 'cssls', 'html' },
+  automatic_installation = true,
+  handlers = {
+    -- Default handler: applies to all servers without custom config
+    function(server_name)
+      require('lspconfig')[server_name].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+    end,
+  },
+})
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -360,14 +334,35 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'buffer' },
   },
 }
+
+-- Diagnostic configuration
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+})
+
+-- Setup none-ls (null-ls fork) for formatting
+local null_ls = require 'null-ls'
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.prettier,
+  },
+})
+
+-- Mason-null-ls: auto-install formatters/linters
+require('mason-null-ls').setup({
+  ensure_installed = { 'prettier' },
+  automatic_installation = true,
+})
+
 EOF
-
-" endif
-
-" }}}
 
 
 " Telescope {{{
@@ -380,8 +375,6 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 if exists('*Telescope')
   lua require('telescope').load_extension('fzf')
 endif
-" }}}
-
 
 " Auto-commands {{{
 if has("autocmd")
