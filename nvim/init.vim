@@ -258,34 +258,35 @@ require('mason').setup({
   }
 })
 
--- Capabilities for LSP
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- LSP keybindings via LspAttach (mason-lspconfig v2 removed the `handlers`
+-- field, so on_attach must be wired globally instead of per-server).
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local bufopts = { noremap=true, silent=true, buffer=args.buf }
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<leader>fo', function()
+      vim.lsp.buf.format {
+        async = true,
+        filter = function(c) return c.name == 'null-ls' end,
+      }
+    end, bufopts)
+  end,
+})
 
--- LSP on_attach function for keybindings
-local on_attach = function(client, bufnr)
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-end
+-- Default capabilities for all servers (nvim 0.11+ vim.lsp.config API).
+vim.lsp.config('*', {
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+})
 
 require('mason-lspconfig').setup({
   ensure_installed = { 'ts_ls', 'cssls', 'html' },
-  automatic_installation = true,
-  handlers = {
-    -- Default handler: applies to all servers without custom config
-    function(server_name)
-      require('lspconfig')[server_name].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
-    end,
-  },
+  -- automatic_enable defaults to true; servers are enabled via vim.lsp.enable()
 })
 
 -- Set completeopt to have a better completion experience
